@@ -5,6 +5,7 @@ import rehypeSlug from 'rehype-slug'
 import Video from '@/app/components/Video'
 import CustomImage from '@/app/components/CustomImage'
 import { BlogPost, Meta } from '@/types'
+
 type Filetree = {
     "tree":[
         {
@@ -14,7 +15,7 @@ type Filetree = {
 }
 
 export async function getPostByName(fileName : string):
-Promise<BlogPost | undefined>{
+Promise<BlogPost | undefined> {
     const res = await fetch(`https://raw.githubusercontent.com/NiccAngelo/test-blogposts/main/${fileName}`,{
         headers:{
             Accept:'application/vnd.github+json',
@@ -39,12 +40,17 @@ Promise<BlogPost | undefined>{
             parseFrontmatter: true,
             mdxOptions: {
                 rehypePlugins: [
-                    rehypeHighlight,rehypeSlug,
+                    {/* @ts-expect-error Server Component */}
+                    ,rehypeHighlight
+                    ,rehypeSlug,
                     [rehypeAutolinkHeadings, {
                         behavior: 'wrap'
                     }],
+                    
+                    
                 ],
             },
+           
         }
     })
     
